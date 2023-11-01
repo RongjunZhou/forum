@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,8 +20,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class ResponseHandler implements ResponseBodyAdvice<Object> {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
+
+    public ResponseHandler(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     //是否执行转换，默认为true即可
     @Override
@@ -46,15 +48,15 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
         if (body instanceof String) {
             try {
                 response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-                return objectMapper.writeValueAsString(Result.success(body));
+                return objectMapper.writeValueAsString(GlobalResult.success(body));
             } catch (JsonProcessingException e) {
                 log.error("json serialization error occur in response handler");
-                return Result.failure("result json serialize error");
+                return GlobalResult.failure("result json serialize error");
             }
-        }else if (body instanceof Result) {
+        }else if (body instanceof GlobalResult) {
             return body;
         }else {
-            return Result.success(body);
+            return GlobalResult.success(body);
         }
     }
 }
