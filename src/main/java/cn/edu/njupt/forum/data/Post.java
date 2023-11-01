@@ -1,4 +1,4 @@
-package cn.edu.njupt.forum.model;
+package cn.edu.njupt.forum.data;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
