@@ -1,5 +1,6 @@
 package cn.edu.njupt.forum.model;
 
+import cn.edu.njupt.forum.enums.PlateTypeEnum;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -20,7 +21,7 @@ public class PostInfo {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer userId;
-    private Integer plateId;
+    private PlateTypeEnum plateId;
     private String title;
     private String content;
     @TableField(typeHandler = GsonTypeHandler.class)
