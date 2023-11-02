@@ -47,4 +47,9 @@ public class PostController {
     public Boolean likePost(@Info UserInfo userInfo, Integer postId){
         return postService.like(userInfo.getId(), postId);
     }
+
+    @PutMapping("/like/comment")
+    public Boolean likeComment(Integer commentId){
+        return postService.like(commentId);
+    }
 }

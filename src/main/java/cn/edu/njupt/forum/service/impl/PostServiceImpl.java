@@ -2,7 +2,9 @@ package cn.edu.njupt.forum.service.impl;
 
 import cn.edu.njupt.forum.data.CommentDO;
 import cn.edu.njupt.forum.data.Post;
+import cn.edu.njupt.forum.enums.ErrorEnum;
 import cn.edu.njupt.forum.enums.PlateTypeEnum;
+import cn.edu.njupt.forum.exception.LocalRuntimeException;
 import cn.edu.njupt.forum.mapper.*;
 import cn.edu.njupt.forum.model.Comment;
 import cn.edu.njupt.forum.model.History;
@@ -13,6 +15,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -78,6 +81,17 @@ public class PostServiceImpl implements PostService {
                 .eq(Like::getPostId, postId));
         if(like == null) return likeMapper.insert(new Like(null, userId, postId, LocalDateTime.now())) > 0;
         return likeMapper.deleteById(like.getId()) < 0;
+    }
+
+    @Override
+    @Transactional
+    public Boolean like(Integer commentId) {
+        Comment comment = commentMapper.selectOne(Wrappers.<Comment>lambdaQuery()
+                .eq(Comment::getId, commentId)
+                .last("for update"));
+        if(comment == null) throw new LocalRuntimeException(ErrorEnum.PARAMS_ERROR, "评论不存在");
+        comment.setLikeCount(comment.getLikeCount() + 1);
+        return commentMapper.updateById(comment) > 0;
     }
 
     private CommentDO toCommentDO(Comment comment){

@@ -17,4 +17,5 @@ public interface PostService {
     Boolean addComment(Integer postId, Integer fatherId, String content, Integer userId);
 
     Boolean like(Integer userId, Integer postId);
+    Boolean like(Integer commentId);
 }
