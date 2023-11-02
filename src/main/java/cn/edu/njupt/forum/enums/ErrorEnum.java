@@ -1,8 +1,12 @@
 package cn.edu.njupt.forum.enums;
 
+import cn.edu.njupt.forum.exception.LocalRuntimeException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum ErrorEnum {
     INTERNAL_ERROR(5000, "内部错误"),
     UNKNOWN_ERROR(5001, "未知错误"),
@@ -16,8 +20,4 @@ public enum ErrorEnum {
     private final Integer errCode;
     private final String errMsg;
 
-    ErrorEnum(Integer errCode, String errMsg) {
-        this.errCode = errCode;
-        this.errMsg = errMsg;
-    }
 }
