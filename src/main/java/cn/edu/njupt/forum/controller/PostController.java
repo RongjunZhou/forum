@@ -5,6 +5,7 @@ import cn.edu.njupt.forum.data.CommentDO;
 import cn.edu.njupt.forum.data.Post;
 import cn.edu.njupt.forum.enums.PlateTypeEnum;
 import cn.edu.njupt.forum.model.UserInfo;
+import cn.edu.njupt.forum.service.CommentService;
 import cn.edu.njupt.forum.service.PostService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,11 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/plate")
@@ -41,12 +44,12 @@ public class PostController {
     @GetMapping("/comment")
     public List<CommentDO> getComment(@NotNull Integer postId, @Info UserInfo userInfo,
                                       @RequestParam(required = false, defaultValue = "1") Integer page){
-        return postService.getComment(postId, page, userInfo.getId());
+        return commentService.getComment(postId, page, userInfo.getId());
     }
 
     @PutMapping("/comment")
     public Boolean addComment(@NotNull Integer postId, Integer fatherId, String content, @Info UserInfo userInfo){
-        return postService.addComment(postId, fatherId, content, userInfo.getId());
+        return commentService.addComment(postId, fatherId, content, userInfo.getId());
     }
 
     @PutMapping("/like/post")
@@ -56,6 +59,6 @@ public class PostController {
 
     @PutMapping("/like/comment")
     public Boolean likeComment(Integer commentId){
-        return postService.like(commentId);
+        return commentService.like(commentId);
     }
 }

@@ -1,6 +1,5 @@
 package cn.edu.njupt.forum.service;
 
-import cn.edu.njupt.forum.data.CommentDO;
 import cn.edu.njupt.forum.data.Post;
 import cn.edu.njupt.forum.enums.PlateTypeEnum;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -13,12 +12,7 @@ public interface PostService {
 
     IPage<Post> getPostPage(Integer plate, Integer page);
 
-    List<CommentDO> getComment(Integer postId, Integer pageNum, Integer userId);
-
-    Boolean addComment(Integer postId, Integer fatherId, String content, Integer userId);
-
     Boolean like(Integer userId, Integer postId);
-    Boolean like(Integer commentId);
 
     Boolean addPost(Integer id, Integer plate, String title, String content, List<MultipartFile> resources);
 }
