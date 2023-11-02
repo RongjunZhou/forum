@@ -21,4 +21,5 @@ public class UserInfo {
     private Boolean man;
     private String avatar;
     private String sign;
+    private String email;
 }

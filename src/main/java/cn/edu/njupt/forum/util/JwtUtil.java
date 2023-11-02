@@ -8,7 +8,6 @@ import com.auth0.jwt.interfaces.Claim;
 
 import java.util.Calendar;
 import java.util.Map;
-import java.util.Objects;
 
 public class JwtUtil {
 
@@ -20,6 +19,7 @@ public class JwtUtil {
         JWTCreator.Builder builder = JWT.create();
         String json = JsonUtil.toJson(userInfo);
         builder.withClaim("userInfo", json);
+        builder.withClaim("timestamp", System.currentTimeMillis());
         builder.withExpiresAt(time.getTime());
         return builder.sign(Algorithm.HMAC256(SECRET));
     }

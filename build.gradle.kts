@@ -27,6 +27,7 @@ dependencies {
     implementation("com.baomidou:mybatis-plus-boot-starter:3.5.4")
     implementation("com.auth0:java-jwt:4.4.0")
     implementation("org.jetbrains:annotations:24.0.0")
+    implementation("javax.validation:validation-api:2.0.1.Final")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.mysql:mysql-connector-j")
