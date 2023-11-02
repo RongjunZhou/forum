@@ -3,11 +3,9 @@ package cn.edu.njupt.forum.service.impl;
 import cn.edu.njupt.forum.data.CommentDO;
 import cn.edu.njupt.forum.data.Post;
 import cn.edu.njupt.forum.enums.PlateTypeEnum;
-import cn.edu.njupt.forum.mapper.CommentMapper;
-import cn.edu.njupt.forum.mapper.PostInfoMapper;
-import cn.edu.njupt.forum.mapper.PostMapper;
-import cn.edu.njupt.forum.mapper.UserInfoMapper;
+import cn.edu.njupt.forum.mapper.*;
 import cn.edu.njupt.forum.model.Comment;
+import cn.edu.njupt.forum.model.History;
 import cn.edu.njupt.forum.model.UserInfo;
 import cn.edu.njupt.forum.service.PostService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -15,6 +13,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,12 +23,14 @@ public class PostServiceImpl implements PostService {
     private final PostInfoMapper postInfoMapper;
     private final CommentMapper commentMapper;
     private final UserInfoMapper userInfoMapper;
+    private final HistoryMapper historyMapper;
 
-    public PostServiceImpl(PostMapper postMapper, PostInfoMapper postInfoMapper, CommentMapper commentMapper, UserInfoMapper userInfoMapper) {
+    public PostServiceImpl(PostMapper postMapper, PostInfoMapper postInfoMapper, CommentMapper commentMapper, UserInfoMapper userInfoMapper, HistoryMapper historyMapper) {
         this.postMapper = postMapper;
         this.postInfoMapper = postInfoMapper;
         this.commentMapper = commentMapper;
         this.userInfoMapper = userInfoMapper;
+        this.historyMapper = historyMapper;
     }
 
     @Override
@@ -45,11 +46,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<CommentDO> getComment(Integer postId, Integer pageNum) {
+    public List<CommentDO> getComment(Integer postId, Integer pageNum, Integer userId) {
         IPage<Comment> commentIPage = new Page<>(20, pageNum);
         commentIPage = commentMapper.selectPage(commentIPage, Wrappers.<Comment>lambdaQuery()
                 .eq(Comment::getPostId, postId)
                 .isNull(Comment::getFatherId));
+        historyMapper.insert(new History(null, null, postId, LocalDateTime.now()));
         return commentIPage.getRecords().stream().map(this::toCommentDO).toList();
     }
 

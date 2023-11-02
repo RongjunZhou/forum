@@ -33,9 +33,9 @@ public class PostController {
     }
 
     @GetMapping("/comment")
-    public List<CommentDO> getComment(@NotNull Integer postId,
+    public List<CommentDO> getComment(@NotNull Integer postId, @Info UserInfo userInfo,
                                       @RequestParam(required = false, defaultValue = "1") Integer page){
-        return postService.getComment(postId, page);
+        return postService.getComment(postId, page, userInfo.getId());
     }
 
     @PutMapping("/comment")

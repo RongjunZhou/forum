@@ -12,7 +12,7 @@ public interface PostService {
 
     IPage<Post> getPostPage(Integer plate, Integer page);
 
-    List<CommentDO> getComment(Integer postId, Integer pageNum);
+    List<CommentDO> getComment(Integer postId, Integer pageNum, Integer userId);
 
     Boolean addComment(Integer postId, Integer fatherId, String content, Integer userId);
 }
