@@ -42,7 +42,8 @@ public class PostServiceImpl implements PostService {
     public IPage<Post> getPostPage(Integer plate, Integer page) {
         IPage<Post> iPage = new Page<>(page, 10);
         return postMapper.selectPage(iPage, Wrappers.<Post>lambdaQuery()
-                .eq(Post::getPlateId, plate));
+                .eq(Post::getPlateId, plate)
+                .orderByDesc(Post::getUpdateTime));
     }
 
     @Override
