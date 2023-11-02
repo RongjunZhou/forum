@@ -53,6 +53,12 @@ public class PostServiceImpl implements PostService {
         return commentIPage.getRecords().stream().map(this::toCommentDO).toList();
     }
 
+    @Override
+    public Boolean addComment(Integer postId, Integer fatherId, String content, Integer userId) {
+        Comment comment = new Comment(null, userId, postId, content, 0, fatherId);
+        return commentMapper.insert(comment) > 0;
+    }
+
     private CommentDO toCommentDO(Comment comment){
         CommentDO.CommentDOBuilder builder = CommentDO.builder().id(comment.getId());
         UserInfo userInfo = userInfoMapper.selectById(comment.getUserId());
