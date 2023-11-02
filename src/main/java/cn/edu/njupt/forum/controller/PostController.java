@@ -32,6 +32,12 @@ public class PostController {
         return postService.getPostPage(plate, page);
     }
 
+    @PutMapping("/post")
+    public Boolean addPost(@Info UserInfo userInfo, Integer plate, String title, String content, List<String> resources){
+        //return postService.addPost(userInfo.getId(), plate, title, content, resources);
+        return null;
+    }
+
     @GetMapping("/comment")
     public List<CommentDO> getComment(@NotNull Integer postId, @Info UserInfo userInfo,
                                       @RequestParam(required = false, defaultValue = "1") Integer page){
