@@ -15,4 +15,6 @@ public interface PostService {
     List<CommentDO> getComment(Integer postId, Integer pageNum, Integer userId);
 
     Boolean addComment(Integer postId, Integer fatherId, String content, Integer userId);
+
+    Boolean like(Integer userId, Integer postId);
 }

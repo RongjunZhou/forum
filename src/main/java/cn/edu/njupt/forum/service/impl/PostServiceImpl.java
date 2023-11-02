@@ -6,6 +6,7 @@ import cn.edu.njupt.forum.enums.PlateTypeEnum;
 import cn.edu.njupt.forum.mapper.*;
 import cn.edu.njupt.forum.model.Comment;
 import cn.edu.njupt.forum.model.History;
+import cn.edu.njupt.forum.model.Like;
 import cn.edu.njupt.forum.model.UserInfo;
 import cn.edu.njupt.forum.service.PostService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,13 +25,15 @@ public class PostServiceImpl implements PostService {
     private final CommentMapper commentMapper;
     private final UserInfoMapper userInfoMapper;
     private final HistoryMapper historyMapper;
+    private final LikeMapper likeMapper;
 
-    public PostServiceImpl(PostMapper postMapper, PostInfoMapper postInfoMapper, CommentMapper commentMapper, UserInfoMapper userInfoMapper, HistoryMapper historyMapper) {
+    public PostServiceImpl(PostMapper postMapper, PostInfoMapper postInfoMapper, CommentMapper commentMapper, UserInfoMapper userInfoMapper, HistoryMapper historyMapper, LikeMapper likeMapper) {
         this.postMapper = postMapper;
         this.postInfoMapper = postInfoMapper;
         this.commentMapper = commentMapper;
         this.userInfoMapper = userInfoMapper;
         this.historyMapper = historyMapper;
+        this.likeMapper = likeMapper;
     }
 
     @Override
@@ -60,6 +63,11 @@ public class PostServiceImpl implements PostService {
     public Boolean addComment(Integer postId, Integer fatherId, String content, Integer userId) {
         Comment comment = new Comment(null, userId, postId, content, 0, fatherId);
         return commentMapper.insert(comment) > 0;
+    }
+
+    @Override
+    public Boolean like(Integer userId, Integer postId) {
+        return false;
     }
 
     private CommentDO toCommentDO(Comment comment){

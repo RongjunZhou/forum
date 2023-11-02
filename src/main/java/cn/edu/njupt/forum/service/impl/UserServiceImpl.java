@@ -22,9 +22,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(String username, String password) {
         UserInfo userInfo = userInfoMapper.selectOne(Wrappers.<UserInfo>lambdaQuery()
+                .select(UserInfo::getPassword)
                 .eq(UserInfo::getUsername, username));
         if (userInfo != null && EncryptUtil.decode(userInfo.getPassword()).equals(password))
             throw new LocalRuntimeException(ErrorEnum.PARAMS_ERROR, "用户名或密码错误");
+        userInfo = userInfoMapper.selectOne(Wrappers.<UserInfo>lambdaQuery()
+                .eq(UserInfo::getUsername, username));
         return JwtUtil.generateJwt(userInfo);
     }
 

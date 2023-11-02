@@ -15,6 +15,7 @@ public class UserInfo {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String username;
+    @TableField(select = false)
     private String password;
     private RoleTypeEnum role;
     @TableField("sex")

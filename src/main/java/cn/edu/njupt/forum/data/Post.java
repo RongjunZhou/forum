@@ -28,6 +28,8 @@ public class Post {
     private String content;
     @TableField(typeHandler = GsonTypeHandler.class)
     private List<String> resources;
+    @TableField(exist = false)
+    private Boolean like;
     private Integer likeCount;
     private Integer viewCount;
     private Integer commentCount;
