@@ -73,7 +73,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Boolean like(Integer userId, Integer postId) {
-        return false;
+        Like like = likeMapper.selectOne(Wrappers.<Like>lambdaQuery()
+                .eq(Like::getUserId, userId)
+                .eq(Like::getPostId, postId));
+        if(like == null) return likeMapper.insert(new Like(null, userId, postId, LocalDateTime.now())) > 0;
+        return likeMapper.deleteById(like.getId()) < 0;
     }
 
     private CommentDO toCommentDO(Comment comment){
