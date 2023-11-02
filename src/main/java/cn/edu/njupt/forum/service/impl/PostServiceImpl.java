@@ -44,9 +44,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public IPage<Post> getPostPage(Integer plate, Integer page) {
         IPage<Post> iPage = new Page<>(page, 10);
-        return postMapper.selectPage(iPage, Wrappers.<Post>lambdaQuery()
+        iPage = postMapper.selectPage(iPage, Wrappers.<Post>lambdaQuery()
                 .eq(Post::getPlateId, plate)
                 .orderByDesc(Post::getUpdateTime));
+        iPage.getRecords().forEach(post -> {
+            post.setLike(likeMapper.selectCount(Wrappers.<Like>lambdaQuery()
+                    .eq(Like::getUserId, post.getUserId())
+                    .eq(Like::getPostId, post.getId())) > 0);
+        });
+        return iPage;
     }
 
     @Override
