@@ -1,5 +1,7 @@
 package cn.edu.njupt.forum.controller;
 
+import cn.edu.njupt.forum.annotation.Info;
+import cn.edu.njupt.forum.model.UserInfo;
 import cn.edu.njupt.forum.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,8 @@ public class UserController {
     }
 
     @PostMapping("/changePassword")
-    public Boolean changePassword(@NotEmpty String username, @NotEmpty String password, @NotEmpty String newPassword) {
-        return userService.changePassword(username, password, newPassword);
+    public Boolean changePassword(@Info UserInfo userInfo, @NotEmpty String originPassword, @NotEmpty String newPassword) {
+        userInfo.setPassword(originPassword);
+        return userService.changePassword(userInfo, newPassword);
     }
 }

@@ -29,7 +29,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean changePassword(String username, String password, String newPassword) {
-        return null;
+    public Boolean changePassword(UserInfo userInfo, String password) {
+        UserInfo userInfoOrigin = userInfoMapper.selectById(userInfo.getId());
+        if (!EncryptUtil.decode(userInfoOrigin.getPassword()).equals(userInfo.getPassword()))
+            throw new LocalRuntimeException(ErrorEnum.PARAMS_ERROR, "原密码错误");
+        userInfo.setPassword(EncryptUtil.encode(password));
+        return userInfoMapper.updateById(userInfo) > 0;
     }
+
 }
