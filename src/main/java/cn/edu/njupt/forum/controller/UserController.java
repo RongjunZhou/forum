@@ -36,8 +36,6 @@ public class UserController {
     }
 
     public Boolean register(@NotEmpty String username, @NotEmpty String email, HttpServletResponse response) {
-        String token = userService.register(username, email);
-        response.setHeader("token", token);
         return true;
     }
 }

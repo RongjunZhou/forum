@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.GsonTypeHandler;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,8 @@ public class Post {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer userId;
-    private PlateTypeEnum plateId;
+    @JsonIgnore
+    private Integer plateId;
     private String title;
     private String content;
     @TableField(typeHandler = GsonTypeHandler.class)
