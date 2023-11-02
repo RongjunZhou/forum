@@ -30,4 +30,10 @@ public class UserController {
         userInfo.setPassword(originPassword);
         return userService.changePassword(userInfo, newPassword);
     }
+
+    public Boolean register(@NotEmpty String username, @NotEmpty String email, HttpServletResponse response) {
+        String token = userService.register(username, email);
+        response.setHeader("token", token);
+        return true;
+    }
 }

@@ -37,4 +37,9 @@ public class UserServiceImpl implements UserService {
         return userInfoMapper.updateById(userInfo) > 0;
     }
 
+    @Override
+    public String register(String username, String email) {
+        return null;
+    }
+
 }

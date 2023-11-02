@@ -28,6 +28,7 @@ dependencies {
     implementation("com.auth0:java-jwt:4.4.0")
     implementation("org.jetbrains:annotations:24.0.0")
     implementation("javax.validation:validation-api:2.0.1.Final")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.mysql:mysql-connector-j")
