@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Like {
+public class Praise {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer userId;

@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
         commentIPage = commentMapper.selectPage(commentIPage, Wrappers.<Comment>lambdaQuery()
                 .eq(Comment::getPostId, postId)
                 .isNull(Comment::getFatherId));
-        historyMapper.insert(new History(null, null, postId, LocalDateTime.now()));
+        historyMapper.insert(new History(null, userId, postId, LocalDateTime.now()));
         return commentIPage.getRecords().stream().map(this::toCommentDO).toList();
     }
 

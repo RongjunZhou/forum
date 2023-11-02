@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class File {
     @TableId(type = IdType.INPUT)
     private String key;
-    private String content;
+    private byte[] content;
 }

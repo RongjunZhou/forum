@@ -54,12 +54,12 @@ VALUES (1, 1, 1, '1', 1, 1, '2023-11-01 23:27:14'),
 UNLOCK TABLES;
 
 --
--- Table structure for table `like`
+-- Table structure for table `praise`
 --
 
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `like`
+CREATE TABLE `praise`
 (
     `id`      int      NOT NULL AUTO_INCREMENT,
     `user_id` int      NOT NULL,
@@ -73,13 +73,13 @@ CREATE TABLE `like`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `like`
+-- Dumping data for table `praise`
 --
 
-LOCK TABLES `like` WRITE;
-/*!40000 ALTER TABLE `like`
+LOCK TABLES `praise` WRITE;
+/*!40000 ALTER TABLE `praise`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `like`
+/*!40000 ALTER TABLE `praise`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,7 +255,7 @@ select `post_info`.`id`         AS `id`,
        count(`v`.`id`)          AS `viewCount`,
        count(`l`.`id`)          AS `likeCount`
 from (((`post_info` left join `comment` `c` on ((`c`.`post_id` = `post_info`.`id`))) left join `view_history` `v`
-       on ((`v`.`post_id` = `post_info`.`id`))) left join `like` `l` on ((`l`.`post_id` = `post_info`.`id`)))
+       on ((`v`.`post_id` = `post_info`.`id`))) left join `praise` `l` on ((`l`.`post_id` = `post_info`.`id`)))
 group by `post_info`.`id`
         */;
 /*!50001 SET character_set_client = @saved_cs_client */;

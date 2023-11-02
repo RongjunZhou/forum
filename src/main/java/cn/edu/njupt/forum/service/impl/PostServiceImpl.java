@@ -4,9 +4,12 @@ import cn.edu.njupt.forum.data.Post;
 import cn.edu.njupt.forum.enums.ErrorEnum;
 import cn.edu.njupt.forum.enums.PlateTypeEnum;
 import cn.edu.njupt.forum.exception.LocalRuntimeException;
-import cn.edu.njupt.forum.mapper.*;
+import cn.edu.njupt.forum.mapper.FileMapper;
+import cn.edu.njupt.forum.mapper.PraiseMapper;
+import cn.edu.njupt.forum.mapper.PostInfoMapper;
+import cn.edu.njupt.forum.mapper.PostMapper;
 import cn.edu.njupt.forum.model.File;
-import cn.edu.njupt.forum.model.Like;
+import cn.edu.njupt.forum.model.Praise;
 import cn.edu.njupt.forum.model.PostInfo;
 import cn.edu.njupt.forum.service.PostService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -27,13 +30,13 @@ public class PostServiceImpl implements PostService {
     private final PostMapper postMapper;
     private final PostInfoMapper postInfoMapper;
 
-    private final LikeMapper likeMapper;
+    private final PraiseMapper praiseMapper;
     private final FileMapper fileMapper;
 
-    public PostServiceImpl(PostMapper postMapper, PostInfoMapper postInfoMapper, LikeMapper likeMapper, FileMapper fileMapper) {
+    public PostServiceImpl(PostMapper postMapper, PostInfoMapper postInfoMapper, PraiseMapper praiseMapper, FileMapper fileMapper) {
         this.postMapper = postMapper;
         this.postInfoMapper = postInfoMapper;
-        this.likeMapper = likeMapper;
+        this.praiseMapper = praiseMapper;
         this.fileMapper = fileMapper;
     }
 
@@ -48,32 +51,30 @@ public class PostServiceImpl implements PostService {
         iPage = postMapper.selectPage(iPage, Wrappers.<Post>lambdaQuery()
                 .eq(Post::getPlateId, plate)
                 .orderByDesc(Post::getUpdateTime));
-        iPage.getRecords().forEach(post -> {
-            post.setLike(likeMapper.selectCount(Wrappers.<Like>lambdaQuery()
-                    .eq(Like::getUserId, post.getUserId())
-                    .eq(Like::getPostId, post.getId())) > 0);
-        });
+        iPage.getRecords().forEach(post -> post.setLike(praiseMapper.selectCount(Wrappers.<Praise>lambdaQuery()
+                .eq(Praise::getUserId, post.getUserId())
+                .eq(Praise::getPostId, post.getId())) > 0));
         return iPage;
     }
 
 
     @Override
     public Boolean like(Integer userId, Integer postId) {
-        Like like = likeMapper.selectOne(Wrappers.<Like>lambdaQuery()
-                .eq(Like::getUserId, userId)
-                .eq(Like::getPostId, postId));
-        if(like == null) return likeMapper.insert(new Like(null, userId, postId, LocalDateTime.now())) > 0;
-        return likeMapper.deleteById(like.getId()) < 0;
+        Praise praise = praiseMapper.selectOne(Wrappers.<Praise>lambdaQuery()
+                .eq(Praise::getUserId, userId)
+                .eq(Praise::getPostId, postId));
+        if(praise == null) return praiseMapper.insert(new Praise(null, userId, postId, LocalDateTime.now())) > 0;
+        return praiseMapper.deleteById(praise.getId()) < 0;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean addPost(Integer id, Integer plate, String title, String content, List<MultipartFile> resources) {
-        List<String> resourceUrls = resources.stream().map(resource -> {
+        List<String> resourceUrls = resources == null ? null : resources.stream().map(resource -> {
             try {
                 byte[] bytes = resource.getBytes();
                 String url = UUID.randomUUID().toString();
-                File file = new File(url, new String(bytes));
+                File file = new File(url, bytes);
                 fileMapper.insert(file);
                 return "static/" + url + ".png";
             } catch (IOException e) {

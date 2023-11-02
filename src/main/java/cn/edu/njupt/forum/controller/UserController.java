@@ -35,7 +35,8 @@ public class UserController {
         return userService.changePassword(userInfo, newPassword);
     }
 
-    public Boolean register(@NotEmpty String username, @NotEmpty String email, HttpServletResponse response) {
+    @PostMapping("/register")
+    public Boolean register(@NotEmpty String username, @NotEmpty String email) {
         return true;
     }
 }
