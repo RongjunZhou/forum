@@ -3,6 +3,7 @@ package cn.edu.njupt.forum.controller;
 import cn.edu.njupt.forum.annotation.Info;
 import cn.edu.njupt.forum.model.UserInfo;
 import cn.edu.njupt.forum.service.UserService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,10 @@ public class UserController {
     @PostMapping("/login")
     public Boolean login(@NotEmpty String username, @NotEmpty String password, HttpServletResponse response) {
         String token = userService.login(username, password);
-        response.setHeader("token", token);
+        Cookie cookie = new Cookie("JWT", token);
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24);
+        response.addCookie(cookie);
         return true;
     }
 
