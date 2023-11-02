@@ -53,9 +53,9 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
                 log.error("json serialization error occur in response handler");
                 return GlobalResult.failure("result json serialize error");
             }
-        }else if (body instanceof GlobalResult) {
+        } else if (body instanceof GlobalResult) {
             return body;
-        }else {
+        } else {
             return GlobalResult.success(body);
         }
     }

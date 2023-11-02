@@ -9,6 +9,7 @@ public enum PlateTypeEnum {
 
     @EnumValue
     private final String type;
+
     PlateTypeEnum(String type) {
         this.type = type;
     }

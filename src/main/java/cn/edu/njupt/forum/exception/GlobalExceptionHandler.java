@@ -63,6 +63,7 @@ public class GlobalExceptionHandler {
         log.error("其他异常", e);
         return GlobalResult.failure(ErrorEnum.PARAMS_ERROR);
     }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public GlobalResult runtimeException(Exception e) {

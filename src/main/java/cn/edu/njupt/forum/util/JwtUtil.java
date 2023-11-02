@@ -13,7 +13,7 @@ public class JwtUtil {
 
     private static final String SECRET = "JA02JS993J239FKKRVKCLSGFS";
 
-    public static String generateJwt(UserInfo userInfo){
+    public static String generateJwt(UserInfo userInfo) {
         Calendar time = Calendar.getInstance();
         time.add(Calendar.HOUR, 24);
         JWTCreator.Builder builder = JWT.create();
@@ -24,7 +24,7 @@ public class JwtUtil {
         return builder.sign(Algorithm.HMAC256(SECRET));
     }
 
-    public static Map<String, Claim> verifyAndGetClaim(String token){
+    public static Map<String, Claim> verifyAndGetClaim(String token) {
         return JWT.require(Algorithm.HMAC256(SECRET)).build().verify(token).getClaims();
     }
 }

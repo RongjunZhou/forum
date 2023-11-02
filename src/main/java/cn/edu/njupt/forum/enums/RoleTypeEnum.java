@@ -9,6 +9,7 @@ public enum RoleTypeEnum {
     USER(0);
     @EnumValue
     private final Integer role;
+
     RoleTypeEnum(Integer role) {
         this.role = role;
     }

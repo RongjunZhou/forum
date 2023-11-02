@@ -17,9 +17,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@NotEmpty String username, @NotEmpty String password, HttpServletResponse response){
+    public Boolean login(@NotEmpty String username, @NotEmpty String password, HttpServletResponse response) {
         String token = userService.login(username, password);
         response.setHeader("token", token);
-        return String.valueOf(System.currentTimeMillis());
+        return true;
+    }
+
+    @PostMapping("/changePassword")
+    public Boolean changePassword(@NotEmpty String username, @NotEmpty String password, @NotEmpty String newPassword) {
+        return userService.changePassword(username, password, newPassword);
     }
 }

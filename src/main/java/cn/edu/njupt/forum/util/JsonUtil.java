@@ -1,10 +1,7 @@
 package cn.edu.njupt.forum.util;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 
 public class JsonUtil {
     private static final ObjectMapper objectMapper = new ObjectMapper();

@@ -5,5 +5,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface PlateMapper extends BaseMapper<Plate>{
+public interface PlateMapper extends BaseMapper<Plate> {
 }
