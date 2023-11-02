@@ -4,6 +4,7 @@ import cn.edu.njupt.forum.data.CommentDO;
 import cn.edu.njupt.forum.data.Post;
 import cn.edu.njupt.forum.enums.PlateTypeEnum;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface PostService {
 
     Boolean like(Integer userId, Integer postId);
     Boolean like(Integer commentId);
+
+    Boolean addPost(Integer id, Integer plate, String title, String content, List<MultipartFile> resources);
 }

@@ -8,6 +8,7 @@ import cn.edu.njupt.forum.model.UserInfo;
 import cn.edu.njupt.forum.service.PostService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -33,9 +34,8 @@ public class PostController {
     }
 
     @PutMapping("/post")
-    public Boolean addPost(@Info UserInfo userInfo, Integer plate, String title, String content, List<String> resources){
-        //return postService.addPost(userInfo.getId(), plate, title, content, resources);
-        return null;
+    public Boolean addPost(@Info UserInfo userInfo, Integer plate, String title, String content, List<MultipartFile> resources){
+        return postService.addPost(userInfo.getId(), plate, title, content, resources);
     }
 
     @GetMapping("/comment")

@@ -6,4 +6,3 @@ spring:
     url: jdbc:mysql://localhost:8080/forum?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
     username: root
     password: 20021014
-
