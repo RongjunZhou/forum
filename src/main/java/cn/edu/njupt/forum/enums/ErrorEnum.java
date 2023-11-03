@@ -1,7 +1,5 @@
 package cn.edu.njupt.forum.enums;
 
-import cn.edu.njupt.forum.exception.LocalRuntimeException;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

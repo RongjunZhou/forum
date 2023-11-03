@@ -2,13 +2,11 @@ package cn.edu.njupt.forum.service.impl;
 
 import cn.edu.njupt.forum.data.CommentOperation;
 import cn.edu.njupt.forum.data.OperationDO;
-import cn.edu.njupt.forum.mapper.CommentMapper;
-import cn.edu.njupt.forum.mapper.HistoryMapper;
-import cn.edu.njupt.forum.mapper.PostMapper;
-import cn.edu.njupt.forum.mapper.PraiseMapper;
+import cn.edu.njupt.forum.mapper.*;
 import cn.edu.njupt.forum.model.Praise;
 import cn.edu.njupt.forum.service.OtherService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +18,14 @@ public class OtherServiceImpl implements OtherService {
     private final PostMapper postMapper;
     private final HistoryMapper historyMapper;
     private final CommentMapper commentMapper;
+    private final FileMapper fileMapper;
 
-    public OtherServiceImpl(PraiseMapper praiseMapper, PostMapper postMapper, HistoryMapper historyMapper, CommentMapper commentMapper) {
+    public OtherServiceImpl(PraiseMapper praiseMapper, PostMapper postMapper, HistoryMapper historyMapper, CommentMapper commentMapper, FileMapper fileMapper) {
         this.praiseMapper = praiseMapper;
         this.postMapper = postMapper;
         this.historyMapper = historyMapper;
         this.commentMapper = commentMapper;
+        this.fileMapper = fileMapper;
     }
 
     @Override
@@ -63,5 +63,11 @@ public class OtherServiceImpl implements OtherService {
             commentOperation.setComment(comment.getContent());
             return commentOperation;
         }).toList();
+    }
+
+    @Override
+    @SneakyThrows
+    public byte[] getFile(String path) {
+        return fileMapper.selectById(path).getContent().getBinaryStream().readAllBytes();
     }
 }

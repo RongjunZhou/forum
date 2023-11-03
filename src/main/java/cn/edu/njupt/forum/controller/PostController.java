@@ -37,28 +37,28 @@ public class PostController {
     }
 
     @PutMapping("/post")
-    public Boolean addPost(@Info UserInfo userInfo, Integer plate, String title, String content, List<MultipartFile> resources){
+    public Boolean addPost(@Info UserInfo userInfo, Integer plate, String title, String content, List<MultipartFile> resources) {
         return postService.addPost(userInfo.getId(), plate, title, content, resources);
     }
 
     @GetMapping("/comment")
     public List<CommentDO> getComment(@NotNull Integer postId, @Info UserInfo userInfo,
-                                      @RequestParam(required = false, defaultValue = "1") Integer page){
+                                      @RequestParam(required = false, defaultValue = "1") Integer page) {
         return commentService.getComment(postId, page, userInfo.getId());
     }
 
     @PutMapping("/comment")
-    public Boolean addComment(@NotNull Integer postId, Integer fatherId, String content, @Info UserInfo userInfo){
+    public Boolean addComment(@NotNull Integer postId, Integer fatherId, String content, @Info UserInfo userInfo) {
         return commentService.addComment(postId, fatherId, content, userInfo.getId());
     }
 
     @PutMapping("/like/post")
-    public Boolean likePost(@Info UserInfo userInfo, Integer postId){
+    public Boolean likePost(@Info UserInfo userInfo, Integer postId) {
         return postService.like(userInfo.getId(), postId);
     }
 
     @PutMapping("/like/comment")
-    public Boolean likeComment(Integer commentId){
+    public Boolean likeComment(Integer commentId) {
         return commentService.like(commentId);
     }
 }

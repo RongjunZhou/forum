@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class OtherController {
 
 
     @GetMapping("/static/{path}")
-    public MultipartFile resources(@PathVariable String path){
-        return null;
+    public byte[] resources(@PathVariable String path) {
+        return otherService.getFile(path);
     }
 }

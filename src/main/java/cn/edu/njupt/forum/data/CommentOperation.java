@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CommentOperation extends OperationDO{
-
+public class CommentOperation extends OperationDO {
     private String comment;
 }

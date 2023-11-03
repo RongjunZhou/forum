@@ -5,21 +5,23 @@ import cn.edu.njupt.forum.enums.ErrorEnum;
 import cn.edu.njupt.forum.enums.PlateTypeEnum;
 import cn.edu.njupt.forum.exception.LocalRuntimeException;
 import cn.edu.njupt.forum.mapper.FileMapper;
-import cn.edu.njupt.forum.mapper.PraiseMapper;
 import cn.edu.njupt.forum.mapper.PostInfoMapper;
 import cn.edu.njupt.forum.mapper.PostMapper;
+import cn.edu.njupt.forum.mapper.PraiseMapper;
 import cn.edu.njupt.forum.model.File;
-import cn.edu.njupt.forum.model.Praise;
 import cn.edu.njupt.forum.model.PostInfo;
+import cn.edu.njupt.forum.model.Praise;
 import cn.edu.njupt.forum.service.PostService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -63,26 +65,26 @@ public class PostServiceImpl implements PostService {
         Praise praise = praiseMapper.selectOne(Wrappers.<Praise>lambdaQuery()
                 .eq(Praise::getUserId, userId)
                 .eq(Praise::getPostId, postId));
-        if(praise == null) return praiseMapper.insert(new Praise(null, userId, postId, LocalDateTime.now())) > 0;
+        if (praise == null) return praiseMapper.insert(new Praise(null, userId, postId, LocalDateTime.now())) > 0;
         return praiseMapper.deleteById(praise.getId()) < 0;
     }
 
     @Override
+    @SneakyThrows
     @Transactional(rollbackFor = Exception.class)
     public Boolean addPost(Integer id, Integer plate, String title, String content, List<MultipartFile> resources) {
         List<String> resourceUrls = resources == null ? null : resources.stream().map(resource -> {
             try {
-                byte[] bytes = resource.getBytes();
                 String url = UUID.randomUUID().toString();
-                File file = new File(url, bytes);
+                File file = new File(url, resource);
                 fileMapper.insert(file);
-                return "static/" + url + ".png";
-            } catch (IOException e) {
-                throw new LocalRuntimeException(ErrorEnum.PARAMS_ERROR, "文件上传失败");
+                return url;
+            } catch (IOException | SQLException e) {
+                throw new LocalRuntimeException(ErrorEnum.INTERNAL_ERROR, "文件上传失败");
             }
         }).toList();
         PostInfo postInfo =
-                new PostInfo(null, id, PlateTypeEnum.getById(plate),title, content, resourceUrls, LocalDateTime.now());
+                new PostInfo(null, id, PlateTypeEnum.getById(plate), title, content, resourceUrls, LocalDateTime.now());
         return postInfoMapper.insert(postInfo) > 0;
     }
 

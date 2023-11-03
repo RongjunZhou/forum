@@ -55,17 +55,17 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentMapper.selectOne(Wrappers.<Comment>lambdaQuery()
                 .eq(Comment::getId, commentId)
                 .last("for update"));
-        if(comment == null) throw new LocalRuntimeException(ErrorEnum.PARAMS_ERROR, "评论不存在");
+        if (comment == null) throw new LocalRuntimeException(ErrorEnum.PARAMS_ERROR, "评论不存在");
         comment.setLikeCount(comment.getLikeCount() + 1);
         return commentMapper.updateById(comment) > 0;
     }
 
-    private CommentDO toCommentDO(Comment comment){
+    private CommentDO toCommentDO(Comment comment) {
         CommentDO.CommentDOBuilder builder = CommentDO.builder().id(comment.getId());
         UserInfo userInfo = userInfoMapper.selectById(comment.getUserId());
         builder.username(userInfo.getUsername()).userAvatar(userInfo.getAvatar())
                 .content(comment.getContent()).likeCount(comment.getLikeCount());
-        if(comment.getFatherId() == null)
+        if (comment.getFatherId() == null)
             builder.leafComments(commentMapper.selectList(Wrappers.<Comment>lambdaQuery()
                     .eq(Comment::getFatherId, comment.getId())).stream().map(this::toCommentDO).toList());
         return builder.time(comment.getTime()).build();

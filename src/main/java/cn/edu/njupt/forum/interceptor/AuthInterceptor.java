@@ -25,7 +25,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                              @NotNull HttpServletResponse response,
                              @NotNull Object handler) {
         String token = null;
-        if(request.getCookies() == null) throw new LocalRuntimeException(ErrorEnum.WITHOUT_LOGIN);
+        if (request.getCookies() == null) throw new LocalRuntimeException(ErrorEnum.WITHOUT_LOGIN);
         for (Cookie cookie : request.getCookies()) {
             if ("JWT".equals(cookie.getName())) {
                 token = cookie.getValue();

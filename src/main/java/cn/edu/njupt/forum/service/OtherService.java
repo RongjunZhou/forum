@@ -11,4 +11,6 @@ public interface OtherService {
     List<OperationDO> myView(Integer id);
 
     List<CommentOperation> myComment(Integer id);
+
+    byte[] getFile(String path);
 }

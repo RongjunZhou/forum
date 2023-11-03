@@ -1,6 +1,5 @@
 package cn.edu.njupt.forum.data;
 
-import cn.edu.njupt.forum.enums.PlateTypeEnum;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
