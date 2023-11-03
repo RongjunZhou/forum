@@ -2,6 +2,7 @@ package cn.edu.njupt.forum.controller;
 
 import cn.edu.njupt.forum.annotation.Info;
 import cn.edu.njupt.forum.data.PraiseDO;
+import cn.edu.njupt.forum.data.ViewDO;
 import cn.edu.njupt.forum.model.UserInfo;
 import cn.edu.njupt.forum.service.OtherService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +29,8 @@ public class OtherController {
     }
 
     @GetMapping("/myView")
-    public String myView() {
-        return "myView";
+    public List<ViewDO> myView(@Info UserInfo userInfo) {
+        return otherService.myView(userInfo.getId());
     }
 
     @GetMapping("/myComment")
