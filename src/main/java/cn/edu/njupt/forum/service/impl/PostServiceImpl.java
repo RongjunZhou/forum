@@ -73,7 +73,7 @@ public class PostServiceImpl implements PostService {
     @SneakyThrows
     @Transactional(rollbackFor = Exception.class)
     public Boolean addPost(Integer id, Integer plate, String title, String content, List<MultipartFile> resources) {
-        List<String> resourceUrls = resources == null ? null : resources.stream().map(resource -> {
+        List<String> resourceUrls = resources == null || resources.isEmpty() ? null : resources.stream().map(resource -> {
             try {
                 String url = UUID.randomUUID().toString();
                 File file = new File(url, resource);

@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
  **/
 @Data
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("all")
 public class LocalRuntimeException extends RuntimeException {
 
     private ErrorEnum error;

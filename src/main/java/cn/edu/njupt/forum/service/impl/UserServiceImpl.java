@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         UserInfo userInfo = userInfoMapper.selectOne(Wrappers.<UserInfo>lambdaQuery()
                 .select(UserInfo::getPassword)
                 .eq(UserInfo::getUsername, username));
-        if (!EncryptUtil.decode(userInfo.getPassword()).equals(password))
+        if (userInfo == null || !EncryptUtil.decode(userInfo.getPassword()).equals(password))
             throw new LocalRuntimeException(ErrorEnum.PARAMS_ERROR, "用户名或密码错误");
         userInfo = userInfoMapper.selectOne(Wrappers.<UserInfo>lambdaQuery()
                 .eq(UserInfo::getUsername, username));

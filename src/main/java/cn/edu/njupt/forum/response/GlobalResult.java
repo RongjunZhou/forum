@@ -19,7 +19,7 @@ public class GlobalResult<T> {
     private T data;
 
     public static <T> GlobalResult<T> success(T data) {
-        return new GlobalResult<T>(true, null, null, data);
+        return new GlobalResult<>(true, null, null, data);
     }
 
     public static GlobalResult<Void> failure(String errMsg) {
