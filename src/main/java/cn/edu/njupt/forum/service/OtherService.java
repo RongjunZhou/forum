@@ -1,12 +1,14 @@
 package cn.edu.njupt.forum.service;
 
-import cn.edu.njupt.forum.data.PraiseDO;
-import cn.edu.njupt.forum.data.ViewDO;
+import cn.edu.njupt.forum.data.CommentOperation;
+import cn.edu.njupt.forum.data.OperationDO;
 
 import java.util.List;
 
 public interface OtherService {
-    List<PraiseDO> myLike(Integer id);
+    List<OperationDO> myLike(Integer id);
 
-    List<ViewDO> myView(Integer id);
+    List<OperationDO> myView(Integer id);
+
+    List<CommentOperation> myComment(Integer id);
 }

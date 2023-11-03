@@ -1,8 +1,8 @@
 package cn.edu.njupt.forum.controller;
 
 import cn.edu.njupt.forum.annotation.Info;
-import cn.edu.njupt.forum.data.PraiseDO;
-import cn.edu.njupt.forum.data.ViewDO;
+import cn.edu.njupt.forum.data.CommentOperation;
+import cn.edu.njupt.forum.data.OperationDO;
 import cn.edu.njupt.forum.model.UserInfo;
 import cn.edu.njupt.forum.service.OtherService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,18 +24,18 @@ public class OtherController {
     }
 
     @GetMapping("/myLike")
-    public List<PraiseDO> myLike(@Info UserInfo userInfo) {
+    public List<OperationDO> myLike(@Info UserInfo userInfo) {
         return otherService.myLike(userInfo.getId());
     }
 
     @GetMapping("/myView")
-    public List<ViewDO> myView(@Info UserInfo userInfo) {
+    public List<OperationDO> myView(@Info UserInfo userInfo) {
         return otherService.myView(userInfo.getId());
     }
 
     @GetMapping("/myComment")
-    public String myComment() {
-        return "myComment";
+    public List<CommentOperation> myComment(@Info UserInfo userInfo) {
+        return otherService.myComment(userInfo.getId());
     }
 
 

@@ -44,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Boolean addComment(Integer postId, Integer fatherId, String content, Integer userId) {
-        Comment comment = new Comment(null, userId, postId, content, 0, fatherId);
+        Comment comment = new Comment(null, userId, postId, content, 0, fatherId, LocalDateTime.now());
         return commentMapper.insert(comment) > 0;
     }
 
@@ -68,6 +68,6 @@ public class CommentServiceImpl implements CommentService {
         if(comment.getFatherId() == null)
             builder.leafComments(commentMapper.selectList(Wrappers.<Comment>lambdaQuery()
                     .eq(Comment::getFatherId, comment.getId())).stream().map(this::toCommentDO).toList());
-        return builder.build();
+        return builder.time(comment.getTime()).build();
     }
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ViewDO {
+public class OperationDO {
     private Integer postId;
     private String title;
     private LocalDateTime time;

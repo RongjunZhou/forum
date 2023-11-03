@@ -1,7 +1,8 @@
 package cn.edu.njupt.forum.service.impl;
 
-import cn.edu.njupt.forum.data.PraiseDO;
-import cn.edu.njupt.forum.data.ViewDO;
+import cn.edu.njupt.forum.data.CommentOperation;
+import cn.edu.njupt.forum.data.OperationDO;
+import cn.edu.njupt.forum.mapper.CommentMapper;
 import cn.edu.njupt.forum.mapper.HistoryMapper;
 import cn.edu.njupt.forum.mapper.PostMapper;
 import cn.edu.njupt.forum.mapper.PraiseMapper;
@@ -18,34 +19,49 @@ public class OtherServiceImpl implements OtherService {
     private final PraiseMapper praiseMapper;
     private final PostMapper postMapper;
     private final HistoryMapper historyMapper;
+    private final CommentMapper commentMapper;
 
-    public OtherServiceImpl(PraiseMapper praiseMapper, PostMapper postMapper, HistoryMapper historyMapper) {
+    public OtherServiceImpl(PraiseMapper praiseMapper, PostMapper postMapper, HistoryMapper historyMapper, CommentMapper commentMapper) {
         this.praiseMapper = praiseMapper;
         this.postMapper = postMapper;
         this.historyMapper = historyMapper;
+        this.commentMapper = commentMapper;
     }
 
     @Override
-    public List<PraiseDO> myLike(Integer id) {
+    public List<OperationDO> myLike(Integer id) {
         return praiseMapper.selectList(Wrappers.<Praise>lambdaQuery()
                 .eq(Praise::getUserId, id)).stream().map(praise -> {
-            PraiseDO praiseDO = new PraiseDO();
-            praiseDO.setPostId(praise.getPostId());
-            praiseDO.setTime(praise.getTime());
-            praiseDO.setTitle(postMapper.selectById(praise.getPostId()).getTitle());
-            return praiseDO;
+            OperationDO operationDO = new OperationDO();
+            operationDO.setPostId(praise.getPostId());
+            operationDO.setTime(praise.getTime());
+            operationDO.setTitle(postMapper.selectById(praise.getPostId()).getTitle());
+            return operationDO;
         }).toList();
     }
 
     @Override
-    public List<ViewDO> myView(Integer id) {
+    public List<OperationDO> myView(Integer id) {
         return historyMapper.selectList(Wrappers.<cn.edu.njupt.forum.model.History>lambdaQuery()
                 .eq(cn.edu.njupt.forum.model.History::getUserId, id)).stream().map(history -> {
-            ViewDO viewDO = new ViewDO();
-            viewDO.setPostId(history.getPostId());
-            viewDO.setTime(history.getTime());
-            viewDO.setTitle(postMapper.selectById(history.getPostId()).getTitle());
-            return viewDO;
+            OperationDO operationDO = new OperationDO();
+            operationDO.setPostId(history.getPostId());
+            operationDO.setTime(history.getTime());
+            operationDO.setTitle(postMapper.selectById(history.getPostId()).getTitle());
+            return operationDO;
+        }).toList();
+    }
+
+    @Override
+    public List<CommentOperation> myComment(Integer id) {
+        return commentMapper.selectList(Wrappers.<cn.edu.njupt.forum.model.Comment>lambdaQuery()
+                .eq(cn.edu.njupt.forum.model.Comment::getUserId, id)).stream().map(comment -> {
+            CommentOperation commentOperation = new CommentOperation();
+            commentOperation.setPostId(comment.getPostId());
+            commentOperation.setTime(comment.getTime());
+            commentOperation.setTitle(postMapper.selectById(comment.getPostId()).getTitle());
+            commentOperation.setComment(comment.getContent());
+            return commentOperation;
         }).toList();
     }
 }

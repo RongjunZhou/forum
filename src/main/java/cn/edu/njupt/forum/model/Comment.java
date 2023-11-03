@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +21,5 @@ public class Comment {
     private Integer likeCount;
     @Nullable
     private Integer fatherId;
+    private LocalDateTime time;
 }
